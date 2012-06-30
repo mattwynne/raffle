@@ -8,20 +8,22 @@ module Raffle
 
       def find_value_to_assign(sexpr, temp_name)
         if sexpr.respond_to?(:each)
-          if (sexpr[0] == :assign)
-            if (sexpr[1][0] == :var_field)
-              if (sexpr[1][1][0] == :@ident)
-                if (sexpr[1][1][1] == temp_name)
-                  @value_returned = sexpr[2]
-                end
-              end
-            end
+          if assignment_with_name?(sexpr, temp_name)
+            @value_returned = sexpr[2]
           end
           sexpr.each do |s|
             find_value_to_assign(s, temp_name)
           end
         end
         @value_returned
+      end
+
+      def assignment_with_name?(sexpr, name)
+        return false unless sexpr
+        sexpr[0] == :assign &&
+          sexpr[1][0] == :var_field &&
+          sexpr[1][1][0] == :@ident &&
+          sexpr[1][1][1] == name
       end
 
       def replace_temp_with_value(sexpr, temp_name, value)
