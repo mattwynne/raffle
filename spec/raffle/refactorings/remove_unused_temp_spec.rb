@@ -13,7 +13,13 @@ describe Raffle::Refactorings::RemoveUnusedTemp do
     refactor(input, 'fred').should == 'def thing ; end'
   end
 
-  context 'when the temp is not found'
+  context 'when the temp is not found' do
+    it 'returns the s-expression unchanged'
+  end
+
+  context 'when the temp is used' do
+    it 'returns the s-expression unchanged'
+  end
 
   def refactor(input, *args)
     sexp = convert(input)
