@@ -1,6 +1,9 @@
+require_relative 'refactoring'
 module Raffle
   module Refactorings
     class InlineTemp
+      include Refactoring
+
       def call(sexpr, temp_name)
         value = find_value_to_assign(sexpr, temp_name)
         replace_temp_with_value(sexpr, temp_name, value)
@@ -16,14 +19,6 @@ module Raffle
           end
         end
         @value_returned
-      end
-
-      def assignment_with_name?(sexpr, name)
-        return false unless sexpr
-        sexpr[0] == :assign &&
-          sexpr[1][0] == :var_field &&
-          sexpr[1][1][0] == :@ident &&
-          sexpr[1][1][1] == name
       end
 
       def replace_temp_with_value(sexpr, temp_name, value)
