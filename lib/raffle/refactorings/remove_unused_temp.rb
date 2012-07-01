@@ -6,8 +6,8 @@ module Raffle
       include ReadsSexps
       include NavigatesTrees
 
-      def call(sexpr, temp_name)
-        transform(sexpr) do |node|
+      def call(sexp, temp_name)
+        transform(sexp) do |node|
           node.reject { |child| assignment_with_name?(child, temp_name) }
         end
       end
