@@ -13,9 +13,8 @@ module Raffle
 
       def find_value_to_assign(sexp, temp_name)
         walk(sexp) do |node|
-          if assignment_with_name?(node, temp_name)
-            @value_returned = node[2]
-          end
+          next unless assignment_with_name?(node, temp_name)
+          @value_returned = node[2]
         end
         @value_returned
       end

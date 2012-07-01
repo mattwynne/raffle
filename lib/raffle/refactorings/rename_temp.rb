@@ -6,9 +6,8 @@ module Raffle
 
       def call(sexp, original_name, new_name)
         transform(sexp) do |node|
-          if node[0] == :@ident && node[1] == original_name
-            [:@ident, new_name, node[2]]
-          end
+          next unless node[0] == :@ident && node[1] == original_name
+          [:@ident, new_name, node[2]]
         end
       end
 
