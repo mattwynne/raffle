@@ -1,8 +1,10 @@
 require_relative 'refactoring'
+require_relative 'navigates_trees'
 module Raffle
   module Refactorings
     class InlineTemp
       include Refactoring
+      include NavigatesTrees
 
       def call(sexpr, temp_name)
         value = find_value_to_assign(sexpr, temp_name)
@@ -16,21 +18,6 @@ module Raffle
           end
         end
         @value_returned
-      end
-
-      def walk(node, &block)
-        return unless node.respond_to?(:each)
-        block.call(node)
-        node.each do |child|
-          walk(child, &block)
-        end
-      end
-
-      def transform(node, &block)
-        return node unless node.respond_to?(:map)
-        block.call(node) || node.map do |child|
-          transform(child, &block)
-        end
       end
 
       def replace_temp_with_value(sexpr, temp_name, value)

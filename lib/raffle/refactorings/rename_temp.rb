@@ -1,6 +1,9 @@
+require_relative 'navigates_trees'
 module Raffle
   module Refactorings
     class RenameTemp
+      include NavigatesTrees
+
       def call(sexpr, original_name, new_name)
         transform(sexpr) do |node|
           if node[0] == :@ident && node[1] == original_name
@@ -9,12 +12,6 @@ module Raffle
         end
       end
 
-      def transform(node, &block)
-        return node unless node.respond_to?(:map)
-        block.call(node) || node.map do |child|
-          transform(child, &block)
-        end
-      end
     end
   end
 end
