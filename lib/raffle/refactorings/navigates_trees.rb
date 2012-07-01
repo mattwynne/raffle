@@ -11,7 +11,7 @@ module Raffle
 
       def transform(node, &block)
         return node unless node.respond_to?(:map)
-        block.call(node) || node.map do |child|
+        (block.call(node) || node).map do |child|
           transform(child, &block)
         end
       end
