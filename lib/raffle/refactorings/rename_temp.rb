@@ -2,12 +2,9 @@ module Raffle
   module Refactorings
     class RenameTemp
       def call(sexpr, original_name, new_name)
-        if sexpr.respond_to?(:each)
-          new = transform(sexpr, original_name, new_name)
-          new.map { |child| call(child, original_name, new_name) }
-        else
-          sexpr
-        end
+        return sexpr unless sexpr.respond_to?(:each)
+        new = transform(sexpr, original_name, new_name)
+        new.map { |child| call(child, original_name, new_name) }
       end
 
       def transform(node, original_name, new_name)
