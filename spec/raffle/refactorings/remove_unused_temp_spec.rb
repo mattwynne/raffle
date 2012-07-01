@@ -1,6 +1,4 @@
-require 'ripper'
-require 'sorcerer'
-require 'awesome_print'
+require 'ripper_helper'
 require_relative '../../../lib/raffle/refactorings/remove_unused_temp'
 
 describe Raffle::Refactorings::RemoveUnusedTemp do
@@ -19,19 +17,5 @@ describe Raffle::Refactorings::RemoveUnusedTemp do
 
   context 'when the temp is used' do
     it 'returns the s-expression unchanged'
-  end
-
-  def refactor(input, *args)
-    sexp = convert(input)
-    result = subject.call(sexp, *args)
-    rubify(result)
-  end
-
-  def convert(source)
-    Ripper::SexpBuilder.new(source).parse
-  end
-
-  def rubify(sexpr)
-    Sorcerer.source(sexpr, multiline: true)
   end
 end

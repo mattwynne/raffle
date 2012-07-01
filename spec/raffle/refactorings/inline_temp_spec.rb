@@ -1,6 +1,4 @@
-require 'ripper'
-require 'sorcerer'
-require 'awesome_print'
+require 'ripper_helper'
 require_relative '../../../lib/raffle/refactorings/inline_temp'
 
 describe Raffle::Refactorings::InlineTemp do
@@ -11,9 +9,8 @@ describe Raffle::Refactorings::InlineTemp do
       june = fred
     end
     }
-    sexp = convert(input)
-    result = subject.call(sexp, "fred")
-    rubify(result).should == "def thing\nfred = 35\njune = 35\nend"
+    output = refactor(input, "fred")
+    output.should == "def thing\nfred = 35\njune = 35\nend"
   end
 
   context 'when the temp is mutated' do
@@ -24,13 +21,5 @@ describe Raffle::Refactorings::InlineTemp do
     #   "#{name} ace"
     # end
     example 'what should we do?'
-  end
-
-  def convert(source)
-    Ripper::SexpBuilder.new(source).parse
-  end
-
-  def rubify(sexpr)
-    Sorcerer.source(sexpr, multiline: true)
   end
 end
