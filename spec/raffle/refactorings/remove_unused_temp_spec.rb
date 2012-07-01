@@ -10,7 +10,7 @@ describe Raffle::Refactorings::RemoveUnusedTemp do
       fred = 35
     end
     }
-    refactor(input, 'fred').should == 'def thing ; end'
+    refactor(input, 'fred').should == 'def thing; end'
   end
 
   context 'when the temp is not found' do

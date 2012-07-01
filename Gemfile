@@ -1,5 +1,5 @@
 source :rubygems
 
-gem 'sorcerer'
+gem 'sorcerer', "~> 0.1.0"
 gem 'rspec'
 gem 'awesome_print'

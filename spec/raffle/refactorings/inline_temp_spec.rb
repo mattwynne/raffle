@@ -13,8 +13,7 @@ describe Raffle::Refactorings::InlineTemp do
     }
     sexp = convert(input)
     result = subject.call(sexp, "fred")
-    rubify(result).should == 
-      'def thing fred = 35; june = 35; end'
+    rubify(result).should == 'def thing; fred = 35; june = 35; end'
   end
 
   context 'when the temp is mutated' do
