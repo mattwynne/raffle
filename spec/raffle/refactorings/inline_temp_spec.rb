@@ -17,6 +17,16 @@ describe Raffle::Refactorings::InlineTemp do
       'def thing fred = 35; june = 35; end'
   end
 
+  context 'when the temp is mutated' do
+    # e.g.
+    # def foo
+    #   name = "fred"
+    #   name << " is "
+    #   "#{name} ace"
+    # end
+    example 'what should we do?'
+  end
+
   def convert(source)
     Ripper::SexpBuilder.new(source).parse
   end
