@@ -1,6 +1,6 @@
 module Raffle
   module Refactorings
-    module Refactoring
+    module ReadsSexps
       def assignment_with_name?(sexpr, name)
         return false unless sexpr
         sexpr[0] == :assign &&

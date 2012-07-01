@@ -1,9 +1,9 @@
-require_relative 'refactoring'
+require_relative 'reads_sexps'
 require_relative 'navigates_trees'
 module Raffle
   module Refactorings
     class RemoveUnusedTemp
-      include Refactoring
+      include ReadsSexps
       include NavigatesTrees
 
       def call(sexpr, temp_name)
