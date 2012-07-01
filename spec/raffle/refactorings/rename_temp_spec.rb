@@ -13,7 +13,7 @@ describe Raffle::Refactorings::RenameTemp do
       end
     }
     output = refactor(input, 'fred', 'billy')
-    output.should == "def foo; billy = 45; june = billy; end"
+    output.should == "def foo\nbilly = 45\njune = billy\nend"
   end
 
   context 'when the temp is a parameter'
@@ -29,6 +29,6 @@ describe Raffle::Refactorings::RenameTemp do
   end
 
   def rubify(sexpr)
-    Sorcerer.source(sexpr)
+    Sorcerer.source(sexpr, multiline: true)
   end
 end

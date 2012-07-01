@@ -10,7 +10,7 @@ describe Raffle::Refactorings::RemoveUnusedTemp do
       fred = 35
     end
     }
-    refactor(input, 'fred').should == 'def thing; end'
+    refactor(input, 'fred').should == "def thing\nend"
   end
 
   context 'when the temp is not found' do
@@ -32,6 +32,6 @@ describe Raffle::Refactorings::RemoveUnusedTemp do
   end
 
   def rubify(sexpr)
-    Sorcerer.source(sexpr)
+    Sorcerer.source(sexpr, multiline: true)
   end
 end
