@@ -11,17 +11,17 @@ module Raffle
         replace_temp_with_value(sexp, temp_name, value)
       end
 
-      def find_value_to_assign(sexp, temp_name)
-        walk(sexp) do |node|
-          next unless assignment_with_name?(node, temp_name)
-          @value_returned = node[2]
+      def find_value_to_assign(starting_sexp, temp_name)
+        walk(starting_sexp) do |sexp|
+          next unless assignment_with_name?(sexp, temp_name)
+          @value_returned = sexp[2]
         end
         @value_returned
       end
 
-      def replace_temp_with_value(sexp, temp_name, value)
-        transform(sexp) do |node|
-          if (node[0] == :var_ref && node[1][0] == :@ident && node[1][1] == temp_name)
+      def replace_temp_with_value(starting_sexp, temp_name, value)
+        transform(starting_sexp) do |sexp|
+          if (sexp[0] == :var_ref && sexp[1][0] == :@ident && sexp[1][1] == temp_name)
             value
           end
         end
