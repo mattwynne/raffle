@@ -3,10 +3,11 @@ module Raffle
   module Refactorings
     class RenameTemp
       include NavigatesTrees
+      include ReadsSexps
 
       def call(starting_sexp, original_name, new_name)
         transform(starting_sexp) do |sexp|
-          next unless sexp[0] == :@ident && sexp[1] == original_name
+          next unless ident?(sexp, original_name)
           [:@ident, new_name, sexp[2]]
         end
       end

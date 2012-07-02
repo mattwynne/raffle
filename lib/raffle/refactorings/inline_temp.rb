@@ -21,9 +21,7 @@ module Raffle
 
       def replace_temp_with_value(starting_sexp, temp_name, value)
         transform(starting_sexp) do |sexp|
-          if (sexp[0] == :var_ref && sexp[1][0] == :@ident && sexp[1][1] == temp_name)
-            value
-          end
+          value if var_ref?(sexp, temp_name)
         end
       end
     end
