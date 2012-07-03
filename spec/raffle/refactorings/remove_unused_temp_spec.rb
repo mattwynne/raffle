@@ -22,7 +22,10 @@ describe Raffle::Refactorings::RemoveUnusedTemp do
   end
 
   context 'when the temp is used' do
-    it 'returns the s-expression unchanged'
+    it 'returns the s-expression unchanged' do
+      pending "how do we know if a variable is used?"
+    end
+
   end
 
   context 'when the temp is the return value' do
