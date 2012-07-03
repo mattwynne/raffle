@@ -3,13 +3,8 @@ require 'raffle/refactorings/noop'
 
 describe Raffle::Refactorings::Noop do
 
-  def round_trip(input)
-    # sourcerer skips the last newline, but it makes our tests more readable
-    refactor(input).should == input.split("\n").join("\n")
-  end
-
-  it 'reformats all code to two space indentation' do
-    round_trip <<-CODE
+  it 'flattens all your lovely indentation (sorry!)' do
+    input = <<-CODE
 class Foo
   def bar
     [1, 2].each do |baz|
@@ -18,13 +13,25 @@ class Foo
   end
 end
     CODE
+    output = 'class Foo
+def bar
+[1, 2].each do |baz|
+puts baz
+end
+end
+end'
+    refactor(input).should == output
   end
 
   it 'respects your funny bracketing conventions' do
-    round_trip <<-CODE
+    input = <<-CODE
 def foo bar
-(bar + (1))
+  (bar + (1))
 end
     CODE
+    output = 'def foo bar
+(bar + (1))
+end'
+    refactor(input).should == output
   end
 end
