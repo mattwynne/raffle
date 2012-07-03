@@ -17,10 +17,38 @@ module Raffle
         )
       end
 
+      def scoping_delimiter?(sexp)
+        (
+          sexp[0] == :def
+        )
+      end
+
       def ident?(sexp, name)
         (
           sexp[0] == :@ident && 
           sexp[1] == name
+        )
+      end
+
+      def positioned_before?(sexp, line, column)
+        (
+          has_positional_information?(sexp) &&
+          (
+            line > sexp[2][0] ||
+            (
+              line == sexp[2][0] &&
+              column >= sexp[2][1]
+            )
+          )
+        )
+      end
+
+      def has_positional_information?(sexp)
+        (
+          sexp[2].kind_of?(Array) &&
+          sexp[2].size == 2 &&
+          sexp[2][0].kind_of?(Fixnum) &&
+          sexp[2][1].kind_of?(Fixnum)
         )
       end
     end
