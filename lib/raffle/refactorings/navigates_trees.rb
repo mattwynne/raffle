@@ -15,6 +15,14 @@ module Raffle
           transform(child, &block)
         end
       end
+
+      def find_last(sexp, &block)
+        result = nil
+        walk(sexp) do |child_sexp|
+          result = child_sexp if block.call(child_sexp)
+        end
+        result
+      end
     end
   end
 end

@@ -12,11 +12,10 @@ module Raffle
       end
 
       def find_value_to_assign(starting_sexp, temp_name)
-        walk(starting_sexp) do |sexp|
-          next unless assignment_with_name?(sexp, temp_name)
-          @value_returned = sexp[2]
+        assign_sexp = find_last(starting_sexp) do |sexp|
+          assignment_with_name?(sexp, temp_name)
         end
-        @value_returned
+        assign_sexp[2]
       end
 
       def replace_temp_with_value(starting_sexp, temp_name, value)

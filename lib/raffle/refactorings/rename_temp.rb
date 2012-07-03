@@ -7,11 +7,9 @@ module Raffle
       include ReadsSexps
 
       def sexp_for_position(starting_sexp, line, column)
-        target_sexp = nil
-        walk(starting_sexp) do |sexp|
-          target_sexp = sexp if positioned_before?(sexp, line, column)
+        find_last(starting_sexp) do |sexp|
+          positioned_before?(sexp, line, column)
         end
-        target_sexp
       end
 
       def find_containing_scope_in(starting_sexp, inner_sexp)
