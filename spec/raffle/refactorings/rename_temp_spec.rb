@@ -29,7 +29,7 @@ describe Raffle::Refactorings::RenameTemp do
         end
       }
       output = refactor(input, 'thing', 'bar', [3,0])
-      output.should == "def foo\n  thing = 34\n  [1].each do |number|\n    puts number + thing\n  end\n  puts thing\nend"
+      output.should == "def foo\nbar = 34\n[1].each do |number|\nputs number + bar\nend\nputs bar\nend"
       #def foo
       #  bar = 34
       #  [1].each do |number|
