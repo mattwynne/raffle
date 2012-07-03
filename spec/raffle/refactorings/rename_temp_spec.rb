@@ -17,5 +17,72 @@ describe Raffle::Refactorings::RenameTemp do
     output.should == "def foo\nbilly = 45\njune = billy\nend"
   end
 
+  context 'with a block scoped temp' do
+    it 'renames the temp inside the block' do
+      input = %{
+        def foo
+          thing = 34
+          [1].each do |number|
+            puts number + thing
+          end
+          puts thing
+        end
+      }
+      output = refactor(input, 'thing', 'bar', [3,0])
+      output.should == "def foo\n  thing = 34\n  [1].each do |number|\n    puts number + thing\n  end\n  puts thing\nend"
+      #def foo
+      #  bar = 34
+      #  [1].each do |number|
+      #    puts number + bar
+      #  end
+      #  puts bar
+      #end
+    end
+
+    it 'ignores block temps when the method temp is selected' do
+      input = %{
+        def foo
+          thing = 34
+          [1].each do |thing|
+            puts thing
+          end
+          puts thing
+        end
+      }
+      output = refactor(input, 'thing', 'number', [3,0])
+      output.should == %{def foo\n  number = 34\n  [1].each do |thing|\n    puts thing\n  end\n  puts number\nend}
+      #def foo
+      #  number = 34
+      #  [1].each do |thing|
+      #    puts thing
+      #  end
+      #  puts number
+      #end
+      pending
+    end
+
+    it 'ignores method temps when the block temp is selected' do
+      input = %{
+        def foo
+          thing = 34
+          [1].each do |thing|
+            puts thing
+          end
+          puts thing
+        end
+      }
+      output = refactor(input, 'thing', 'number', [5,0])
+      output.should == %{def foo\n  thing = 34\n  [1].each do |number|\n    puts number\n  end\n  puts thing\nend}
+      #def foo
+      #  number = 34
+      #  [1].each do |thing|
+      #    puts thing
+      #  end
+      #  puts number
+      #end
+      pending
+    end
+  end
+
   context 'when the temp is a parameter'
 end
