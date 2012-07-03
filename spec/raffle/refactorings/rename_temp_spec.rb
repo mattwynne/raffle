@@ -50,7 +50,7 @@ describe Raffle::Refactorings::RenameTemp do
         end
       }
       output = refactor(input, 'thing', 'number', [3,0])
-      output.should == %{def foo\n  number = 34\n  [1].each do |thing|\n    puts thing\n  end\n  puts number\nend}
+      output.should == %{def foo\nnumber = 34\n[1].each do |thing|\nputs thing\nend\nputs number\nend}
       #def foo
       #  number = 34
       #  [1].each do |thing|
@@ -72,7 +72,7 @@ describe Raffle::Refactorings::RenameTemp do
         end
       }
       output = refactor(input, 'thing', 'number', [5,0])
-      output.should == %{def foo\n  thing = 34\n  [1].each do |number|\n    puts number\n  end\n  puts thing\nend}
+      output.should == %{def foo\nthing = 34\n[1].each do |number|\nputs number\nend\nputs thing\nend}
       #def foo
       #  number = 34
       #  [1].each do |thing|
