@@ -14,7 +14,16 @@ describe Raffle::Refactorings::RenameTemp do
       end
     }
     output = refactor(input, 'fred', 'billy', [3,0])
-    output.should == "def foo\nbilly = 45\njune = billy\nend"
+    output.should == <<-CODE
+def foo
+  billy = 45
+  june = billy
+end
+
+def bar
+  fred = "captain"
+end
+    CODE
   end
 
   context 'with a block scoped temp' do
@@ -40,6 +49,7 @@ describe Raffle::Refactorings::RenameTemp do
     end
 
     it 'ignores block temps when the method temp is selected' do
+      pending
       input = %{
         def foo
           thing = 34
