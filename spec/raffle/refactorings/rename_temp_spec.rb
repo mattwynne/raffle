@@ -1,4 +1,5 @@
 require 'ripper_helper'
+require 'match_code_helper'
 require_relative '../../../lib/raffle/refactorings/rename_temp'
 
 describe Raffle::Refactorings::RenameTemp do
@@ -13,8 +14,7 @@ describe Raffle::Refactorings::RenameTemp do
         fred = "captain"
       end
     }
-    output = refactor(input, 'fred', 'billy', [3,0])
-    expected = <<-CODE
+    refactor(input, 'fred', 'billy', [3,0]).should match_code <<-CODE
 def foo
 billy = 45
 june = billy
@@ -23,7 +23,6 @@ def bar
 fred = "captain"
 end
 CODE
-    output.should == expected.chomp
   end
 
   context 'with a block scoped temp' do
@@ -37,15 +36,15 @@ CODE
           puts thing
         end
       }
-      output = refactor(input, 'thing', 'bar', [3,0])
-      output.should == "def foo\nbar = 34\n[1].each do |number|\nputs number + bar\nend\nputs bar\nend"
-      #def foo
-      #  bar = 34
-      #  [1].each do |number|
-      #    puts number + bar
-      #  end
-      #  puts bar
-      #end
+      refactor(input, 'thing', 'bar', [3,0]).should match_code <<-CODE
+def foo
+bar = 34
+[1].each do |number|
+puts number + bar
+end
+puts bar
+end
+CODE
     end
 
     it 'ignores block temps when the method temp is selected' do
@@ -58,15 +57,15 @@ CODE
           puts thing
         end
       }
-      output = refactor(input, 'thing', 'number', [3,0])
-      output.should == %{def foo\nnumber = 34\n[1].each do |thing|\nputs thing\nend\nputs number\nend}
-      #def foo
-      #  number = 34
-      #  [1].each do |thing|
-      #    puts thing
-      #  end
-      #  puts number
-      #end
+      refactor(input, 'thing', 'number', [3,0]).should match_code <<-CODE
+def foo
+number = 34
+[1].each do |thing|
+puts thing
+end
+puts number
+end
+CODE
     end
 
     it 'ignores method temps when the block temp is selected' do
@@ -79,15 +78,15 @@ CODE
           puts thing
         end
       }
-      output = refactor(input, 'thing', 'number', [5,0])
-      output.should == %{def foo\nthing = 34\n[1].each do |number|\nputs number\nend\nputs thing\nend}
-      #def foo
-      #  number = 34
-      #  [1].each do |thing|
-      #    puts thing
-      #  end
-      #  puts number
-      #end
+      refactor(input, 'thing', 'number', [5,0]).should match_code <<-CODE
+def foo
+thing = 34
+[1].each do |number|
+puts number
+end
+puts thing
+end
+CODE
     end
   end
 
