@@ -25,10 +25,14 @@ module Raffle
         line, column = line_and_column
         position_sexp = sexp_for_position(starting_sexp, line, column)
         scope_sexp = find_containing_scope_in(starting_sexp, position_sexp)
-        run_when_scope_boundary_change = lambda do |new_scope|
+        unless_scope_defines_variable_again = lambda do |new_scope|
           return true if new_scope == scope_sexp
+          return false if find_first(new_scope) do |sexp|
+            block_parameter?(sexp, original_name)
+          end
+          true
         end
-        transform_within_scope(starting_sexp, scope_sexp, run_when_scope_boundary_change) do |sexp|
+        transform_within_scope(starting_sexp, scope_sexp, unless_scope_defines_variable_again) do |sexp|
           next unless ident?(sexp, original_name)
           [:@ident, new_name, sexp[2]]
         end

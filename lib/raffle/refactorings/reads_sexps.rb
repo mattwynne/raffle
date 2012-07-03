@@ -24,6 +24,14 @@ module Raffle
         )
       end
 
+      def block_parameter?(sexp, name)
+        (
+          sexp[0] == :block_var &&
+          sexp[1][0] == :params &&
+          ident?(sexp[1][1][0], name)
+        )
+      end
+
       def ident?(sexp, name)
         (
           sexp[0] == :@ident && 
