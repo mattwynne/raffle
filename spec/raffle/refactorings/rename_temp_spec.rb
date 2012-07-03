@@ -40,7 +40,6 @@ describe Raffle::Refactorings::RenameTemp do
     end
 
     it 'ignores block temps when the method temp is selected' do
-      pending
       input = %{
         def foo
           thing = 34
