@@ -16,12 +16,12 @@ describe Raffle::Refactorings::RenameTemp do
     output = refactor(input, 'fred', 'billy', [3,0])
     output.should == <<-CODE
 def foo
-  billy = 45
-  june = billy
+billy = 45
+june = billy
 end
 
 def bar
-  fred = "captain"
+fred = "captain"
 end
     CODE
   end
