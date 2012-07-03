@@ -90,5 +90,32 @@ CODE
     end
   end
 
-  context 'when the temp is a parameter'
+  context 'with a begin/end scoped temp' do
+    it 'always changes all the referenced values wherever the position is' do
+      input = %{
+        def foo
+          thing = 34
+          begin
+            thing = 35
+          end
+          puts thing
+        end
+      }
+      expected = <<-CODE
+def foo
+number = 34
+begin
+number = 35
+end
+puts number
+end
+CODE
+    refactor(input, 'thing', 'number', [1,0]).should match_code(expected)
+    refactor(input, 'thing', 'number', [3,0]).should match_code(expected)
+    end
+  end
+
+  context 'when the temp is a parameter' do
+    pending 'what should we do here? change the parameter name too, or just change the local variable?'
+  end
 end
