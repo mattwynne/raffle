@@ -14,16 +14,16 @@ describe Raffle::Refactorings::RenameTemp do
       end
     }
     output = refactor(input, 'fred', 'billy', [3,0])
-    output.should == <<-CODE
+    expected = <<-CODE
 def foo
 billy = 45
 june = billy
 end
-
 def bar
 fred = "captain"
 end
-    CODE
+CODE
+    output.should == expected.chomp
   end
 
   context 'with a block scoped temp' do

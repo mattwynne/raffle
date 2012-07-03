@@ -24,7 +24,7 @@ module Raffle
       def call(starting_sexp, original_name, new_name, line_and_column)
         line, column = line_and_column
         scope_sexp = find_containing_scope_in(starting_sexp, sexp_for_position(starting_sexp, line, column))
-        transform(scope_sexp) do |sexp|
+        transform_within_scope(starting_sexp, scope_sexp) do |sexp|
           next unless ident?(sexp, original_name)
           [:@ident, new_name, sexp[2]]
         end
