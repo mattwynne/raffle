@@ -19,7 +19,8 @@ module Raffle
 
       def scoping_delimiter?(sexp)
         (
-          sexp[0] == :def
+          sexp[0] == :def ||
+          sexp[0] == :do_block
         )
       end
 
@@ -34,10 +35,23 @@ module Raffle
         (
           has_positional_information?(sexp) &&
           (
-            line > sexp[2][0] ||
+            sexp[2][0] < line ||
             (
-              line == sexp[2][0] &&
-              column >= sexp[2][1]
+              sexp[2][0] == line
+              sexp[2][1] < column
+            )
+          )
+        )
+      end
+
+      def positioned_on_or_after?(sexp, line, column)
+        (
+          has_positional_information?(sexp) &&
+          (
+            sexp[2][0] > line ||
+            (
+              sexp[2][0] == line &&
+              sexp[2][1] >= column
             )
           )
         )

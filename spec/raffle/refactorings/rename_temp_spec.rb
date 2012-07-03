@@ -49,7 +49,6 @@ CODE
     end
 
     it 'ignores block temps when the method temp is selected' do
-      pending
       input = %{
         def foo
           thing = 34
@@ -68,11 +67,9 @@ CODE
       #  end
       #  puts number
       #end
-      pending
     end
 
     it 'ignores method temps when the block temp is selected' do
-      pending
       input = %{
         def foo
           thing = 34
@@ -91,7 +88,6 @@ CODE
       #  end
       #  puts number
       #end
-      pending
     end
   end
 

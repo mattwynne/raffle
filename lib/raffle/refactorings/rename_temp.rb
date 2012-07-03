@@ -7,8 +7,8 @@ module Raffle
       include ReadsSexps
 
       def sexp_for_position(starting_sexp, line, column)
-        find_last(starting_sexp) do |sexp|
-          positioned_before?(sexp, line, column)
+        find_first(starting_sexp) do |sexp|
+          positioned_on_or_after?(sexp, line, column)
         end
       end
 
@@ -23,7 +23,8 @@ module Raffle
 
       def call(starting_sexp, original_name, new_name, line_and_column)
         line, column = line_and_column
-        scope_sexp = find_containing_scope_in(starting_sexp, sexp_for_position(starting_sexp, line, column))
+        position_sexp = sexp_for_position(starting_sexp, line, column)
+        scope_sexp = find_containing_scope_in(starting_sexp, position_sexp)
         transform_within_scope(starting_sexp, scope_sexp) do |sexp|
           next unless ident?(sexp, original_name)
           [:@ident, new_name, sexp[2]]
