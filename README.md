@@ -10,5 +10,7 @@ It is:
   * aware of callsite data (from observing test runs)
   * under development [![Build Status](https://secure.travis-ci.org/mattwynne/raffle.png?branch=master)](http://travis-ci.org/mattwynne/raffle)
 
-We'd love your help. Come and talk to us on the Google group: https://groups.google.com/forum/#!forum/a-refactoring-tool-for-ruby
+We'd love your help. 
+
+Come and talk to us on the Google group: https://groups.google.com/forum/#!forum/a-refactoring-tool-for-ruby or the IRC channel: irc://irc.freenode.net/raffle.rb
 

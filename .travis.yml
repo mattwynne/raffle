@@ -3,4 +3,4 @@ rvm:
   - 1.9.3
 notifications:
   email: false
-  irc: "irc.freenode.org#raffle"
+  irc: "irc.freenode.org#raffle.rb"
