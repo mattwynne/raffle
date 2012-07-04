@@ -20,8 +20,7 @@ module Raffle
       end
 
       def call(starting_sexp, original_name, new_name, line_and_column)
-        position_sexp = sexp_for_position(starting_sexp, Position.new(line_and_column))
-        scope_sexp = find_containing_scope(starting_sexp, position_sexp)
+        scope_sexp = containing_scope_for_position(starting_sexp, Position.new(line_and_column))
         unless_scope_defines_variable_again = lambda do |new_scope|
           not defining_block_parameter?(new_scope, original_name)
         end

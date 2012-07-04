@@ -56,6 +56,10 @@ module Raffle
         end
         starting_sexp
       end
+
+      def containing_scope_for_position(starting_sexp, position)
+        find_containing_scope(starting_sexp, sexp_for_position(starting_sexp, position))
+      end
     end
   end
 end
