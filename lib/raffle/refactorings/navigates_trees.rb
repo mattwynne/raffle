@@ -29,10 +29,7 @@ module Raffle
       end
 
       def transform(sexp, &block)
-        return sexp unless sexp.respond_to?(:map)
-        (block.call(sexp) || sexp).map do |child|
-          transform(child, &block)
-        end
+        transform_no_scope_boundary_change(sexp, lambda { |x| true }, &block)
       end
 
       def find_last(sexp, &block)
