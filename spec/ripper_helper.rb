@@ -1,6 +1,5 @@
 require 'ripper'
 require 'sorcerer'
-require 'awesome_print'
 
 module RipperHelper
   def refactor(input, *args)
