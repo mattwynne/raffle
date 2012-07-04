@@ -13,7 +13,7 @@ module Raffle
         end
       end
 
-      def has_block_parameter_of?(starting_sexp, name)
+      def defining_block_parameter?(starting_sexp, name)
         find_first(starting_sexp) do |sexp|
           block_parameter?(sexp, name)
         end
@@ -23,9 +23,7 @@ module Raffle
         position_sexp = sexp_for_position(starting_sexp, Position.new(line_and_column))
         scope_sexp = find_containing_scope(starting_sexp, position_sexp)
         unless_scope_defines_variable_again = lambda do |new_scope|
-          return true if new_scope == scope_sexp
-          return false if has_block_parameter_of?(new_scope, original_name)
-          true
+          not defining_block_parameter?(new_scope, original_name)
         end
         transform_within_scope(starting_sexp, scope_sexp, unless_scope_defines_variable_again) do |sexp|
           next unless ident?(sexp, original_name)

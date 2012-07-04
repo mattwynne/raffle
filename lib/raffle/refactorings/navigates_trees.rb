@@ -12,7 +12,7 @@ module Raffle
       def transform_within_scope(current_sexp, scope_sexp, scope_proc, &block)
         return current_sexp unless current_sexp.respond_to?(:map)
         current_sexp.map do |child_sexp|
-          if (child_sexp == scope_sexp)
+          if (current_sexp == scope_sexp)
             transform_respecting_scope_changes(child_sexp, scope_proc, &block)
           else
             transform_within_scope(child_sexp, scope_sexp, scope_proc, &block)
