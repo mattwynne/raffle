@@ -13,13 +13,10 @@ module Raffle
         end
       end
 
-      def find_containing_scope(starting_sexp, inner_sexp)
-        containing_scope = nil
-        walk(starting_sexp) do |sexp|
-          containing_scope = sexp if scoping_delimiter?(sexp)
-          return containing_scope if sexp == inner_sexp
+      def has_block_parameter_of?(starting_sexp, name)
+        find_first(starting_sexp) do |sexp|
+          block_parameter?(sexp, name)
         end
-        starting_sexp
       end
 
       def call(starting_sexp, original_name, new_name, line_and_column)
@@ -28,9 +25,7 @@ module Raffle
         scope_sexp = find_containing_scope(starting_sexp, position_sexp)
         unless_scope_defines_variable_again = lambda do |new_scope|
           return true if new_scope == scope_sexp
-          return false if find_first(new_scope) do |sexp|
-            block_parameter?(sexp, original_name)
-          end
+          return false if has_block_parameter_of?(new_scope, original_name)
           true
         end
         transform_within_scope(starting_sexp, scope_sexp, unless_scope_defines_variable_again) do |sexp|

@@ -47,6 +47,15 @@ module Raffle
         end
         result
       end
+
+      def find_containing_scope(starting_sexp, inner_sexp)
+        containing_scope = nil
+        walk(starting_sexp) do |sexp|
+          containing_scope = sexp if scoping_delimiter?(sexp)
+          return containing_scope if sexp == inner_sexp
+        end
+        starting_sexp
+      end
     end
   end
 end
