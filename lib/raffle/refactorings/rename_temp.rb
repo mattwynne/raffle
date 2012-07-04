@@ -1,14 +1,15 @@
 require_relative 'navigates_trees'
 require_relative 'reads_sexps'
+require_relative '../position'
 module Raffle
   module Refactorings
     class RenameTemp
       include NavigatesTrees
       include ReadsSexps
 
-      def sexp_for_position(starting_sexp, line, column)
+      def sexp_for_position(starting_sexp, position)
         find_first(starting_sexp) do |sexp|
-          positioned_on_or_after?(sexp, line, column)
+          positioned_on_or_after?(sexp, position)
         end
       end
 
@@ -22,8 +23,8 @@ module Raffle
       end
 
       def call(starting_sexp, original_name, new_name, line_and_column)
-        line, column = line_and_column
-        position_sexp = sexp_for_position(starting_sexp, line, column)
+        position = Position.new(line_and_column)
+        position_sexp = sexp_for_position(starting_sexp, position)
         scope_sexp = find_containing_scope(starting_sexp, position_sexp)
         unless_scope_defines_variable_again = lambda do |new_scope|
           return true if new_scope == scope_sexp

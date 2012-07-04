@@ -39,27 +39,27 @@ module Raffle
         )
       end
 
-      def positioned_before?(sexp, line, column)
+      def positioned_before?(sexp, position)
         (
           has_positional_information?(sexp) &&
           (
-            sexp[2][0] < line ||
+            sexp[2][0] < position.line ||
             (
-              sexp[2][0] == line
-              sexp[2][1] < column
+              sexp[2][0] == position.line
+              sexp[2][1] < position.column
             )
           )
         )
       end
 
-      def positioned_on_or_after?(sexp, line, column)
+      def positioned_on_or_after?(sexp, position)
         (
           has_positional_information?(sexp) &&
           (
-            sexp[2][0] > line ||
+            sexp[2][0] > position.line ||
             (
-              sexp[2][0] == line &&
-              sexp[2][1] >= column
+              sexp[2][0] == position.line &&
+              sexp[2][1] >= position.column
             )
           )
         )
