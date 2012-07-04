@@ -34,35 +34,19 @@ module Raffle
 
       def ident?(sexp, name)
         (
-          sexp[0] == :@ident && 
+          sexp[0] == :@ident &&
           sexp[1] == name
         )
       end
 
       def positioned_before?(sexp, position)
-        (
-          has_positional_information?(sexp) &&
-          (
-            sexp[2][0] < position.line ||
-            (
-              sexp[2][0] == position.line
-              sexp[2][1] < position.column
-            )
-          )
-        )
+        return false unless has_positional_information?(sexp)
+        Position.new(sexp[2]) < position
       end
 
       def positioned_on_or_after?(sexp, position)
-        (
-          has_positional_information?(sexp) &&
-          (
-            sexp[2][0] > position.line ||
-            (
-              sexp[2][0] == position.line &&
-              sexp[2][1] >= position.column
-            )
-          )
-        )
+        return false unless has_positional_information?(sexp)
+        Position.new(sexp[2]) >= position
       end
 
       def has_positional_information?(sexp)
