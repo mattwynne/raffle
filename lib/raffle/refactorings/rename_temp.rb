@@ -12,7 +12,7 @@ module Raffle
         end
       end
 
-      def find_containing_scope_in(starting_sexp, inner_sexp)
+      def find_containing_scope(starting_sexp, inner_sexp)
         containing_scope = nil
         walk(starting_sexp) do |sexp|
           containing_scope = sexp if scoping_delimiter?(sexp)
@@ -24,7 +24,7 @@ module Raffle
       def call(starting_sexp, original_name, new_name, line_and_column)
         line, column = line_and_column
         position_sexp = sexp_for_position(starting_sexp, line, column)
-        scope_sexp = find_containing_scope_in(starting_sexp, position_sexp)
+        scope_sexp = find_containing_scope(starting_sexp, position_sexp)
         unless_scope_defines_variable_again = lambda do |new_scope|
           return true if new_scope == scope_sexp
           return false if find_first(new_scope) do |sexp|
