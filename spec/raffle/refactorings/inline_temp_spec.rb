@@ -6,19 +6,21 @@ describe Raffle::Refactorings::InlineTemp do
   context 'when the temp can be safely inlined' do
 
     it 'replaces all uses of the temp' do
-      input = '
-      def thing
-        fred = 35
-        june = fred
-        "I was #{fred} years old"
-      end
-      '
+      input = <<'CODE'
+def thing
+  fred = 35
+  june = fred
+  "I was #{fred} years old"
+  end
+CODE
       output = refactor(input, "fred")
-      output.should == 'def thing
-fred = 35
-june = 35
-"I was #{35} years old"
-end'
+      output.should == <<'CODE'
+def thing
+  fred = 35
+  june = 35
+  "I was #{35} years old"
+end
+CODE
     end
 
     context 'when the temp uses an overloaded name' do
