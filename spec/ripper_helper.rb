@@ -13,7 +13,7 @@ module RipperHelper
   end
 
   def rubify(sexpr)
-    Sorcerer.source(sexpr, multiline: true)
+    Sorcerer.source(sexpr, indent: true)
   end
 end
 
