@@ -60,6 +60,12 @@ module Raffle
       def containing_scope_for_position(starting_sexp, position)
         find_containing_scope(starting_sexp, sexp_for_position(starting_sexp, position))
       end
+
+      def sexp_for_position(starting_sexp, position)
+        find_first(starting_sexp) do |sexp|
+          positioned_on_or_after?(sexp, position)
+        end
+      end
     end
   end
 end
