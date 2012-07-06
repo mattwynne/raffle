@@ -2,7 +2,7 @@ Given /^a file `(.*)` with:$/ do |path, string|
   write_file(path, string)
 end
 
-When /^I run `raffle (\w+) (.*)$/ do |refactoring, args|
+When /^I run `raffle (\w+) (.*)`$/ do |refactoring, args|
   run_refactoring(refactoring, *args.split)
 end
 

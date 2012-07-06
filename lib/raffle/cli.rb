@@ -1,11 +1,23 @@
 require 'raffle/refactorings'
+require 'ripper'
+require 'sorcerer'
 module Raffle
-  class CLI
-    def initialize(file_system)
+  class CLI < Struct.new(:file_system)
+
+    def run(refactoring_name, *args)
+      refactoring = eval("Raffle::Refactorings::#{refactoring_name}").new
+      file = args.shift
+      sexp = convert(file_system.read(file))
+      result = refactoring.call(sexp, *args)
+      file_system.write(file, rubify(result))
     end
 
-    def run(refactoring, *args)
-      eval("Raffle::Refactorings::#{refactoring}").new.call(*args)
+    def convert(source)
+      Ripper::SexpBuilder.new(source).parse
+    end
+
+    def rubify(sexpr)
+      Sorcerer.source(sexpr, multiline: true)
     end
   end
 end

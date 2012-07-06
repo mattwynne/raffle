@@ -21,7 +21,7 @@ module Fast
     end
 
     def read(path)
-      files.fetch(path)
+      files[path] || raise("File not found: #{path}")
     end
 
     private
