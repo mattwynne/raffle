@@ -38,6 +38,7 @@ Feature: Remove unused temp
       end
       end
       end
+
       """
 
   Scenario: Refer to temp to remove by position and name
