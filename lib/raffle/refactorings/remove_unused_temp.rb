@@ -7,7 +7,11 @@ module Raffle
       include NavigatesTrees
 
       def call(starting_sexp, temp_name)
-        return starting_sexp if more_than_one_use_of?(starting_sexp, temp_name)
+        walk(starting_sexp) do |sexp|
+          if scoping_delimiter?(sexp)
+            return starting_sexp if more_than_one_use_of?(sexp, temp_name)
+          end
+        end
 
         transform(starting_sexp) do |sexp|
           sexp.reject { |child| assignment_with_name?(child, temp_name) }
