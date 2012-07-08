@@ -49,15 +49,7 @@ describe Raffle::Refactorings::RemoveUnusedTemp do
     CODE
 
     it 'removes the temp from the first method' do
-      refactor(input, 'fred').should == <<-CODE
-def thing
-42
-end
-
-def fred
-"something unrelated"
-end
-      CODE
+      refactor(input, 'fred').should == "def thing\n42\nend\ndef fred\n\"something unrelated\"\nend"""
     end
   end
 
