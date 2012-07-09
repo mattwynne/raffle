@@ -11,7 +11,7 @@ def thing
   fred = 35
   june = fred
   "I was #{fred} years old"
-  end
+end
 CODE
       output = refactor(input, "fred")
       output.should == <<'CODE'
