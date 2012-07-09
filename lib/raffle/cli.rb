@@ -17,7 +17,7 @@ module Raffle
     end
 
     def rubify(sexpr)
-      Sorcerer.source(sexpr, multiline: true)
+      Sorcerer.source(sexpr, multiline: true, indent: true)
     end
   end
 end

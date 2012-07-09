@@ -29,14 +29,14 @@ Feature: Remove unused temp
     Then the file `lib/foo/bar.rb` should contain:
       """
       module Foo
-      class Bar
-      def baz
-      5 * 25
-      end
-      def other
-      1
-      end
-      end
+        class Bar
+          def baz
+            5 * 25
+          end
+          def other
+            1
+          end
+        end
       end
 
       """
