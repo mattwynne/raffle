@@ -3,7 +3,7 @@ require 'raffle/refactorings/noop'
 
 describe Raffle::Refactorings::Noop do
 
-  it 'flattens all your lovely indentation (sorry!)' do
+  it 'respects standard 2-space indentation' do
     input = <<CODE
 class Foo
   def bar
