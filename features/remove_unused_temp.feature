@@ -40,21 +40,3 @@ Feature: Remove unused temp
 
       """
 
-  Scenario: Refer to temp to remove by position and name
-    Removes the temp within the scope pointed to by the position.
-    When I run `raffle RemoveUnusedTemp lib/foo/bar.rb:3,0 fred`
-    Then the file `lib/foo/bar.rb` should contain:
-      """
-      module Foo
-        class Bar
-          def baz
-            5 * 25
-          end
-          def other
-            fred = "unused again"
-            1
-          end
-        end
-      end
-      """
-
