@@ -12,7 +12,6 @@ Feature: Remove unused temp
             fred = 'whatever'
             5 * 25
           end
-
           def other
             fred = 'unused again'
             1
@@ -47,15 +46,15 @@ Feature: Remove unused temp
     Then the file `lib/foo/bar.rb` should contain:
       """
       module Foo
-      class Bar
-      def baz
-      5 * 25
-      end
-      def other
-      fred = "unused again"
-      1
-      end
-      end
+        class Bar
+          def baz
+            5 * 25
+          end
+          def other
+            fred = "unused again"
+            1
+          end
+        end
       end
       """
 
