@@ -5,7 +5,7 @@ module Raffle
   class CLI < Struct.new(:file_system)
 
     def run(refactoring_name, *args)
-      refactoring = eval("Raffle::Refactorings::#{refactoring_name}").new
+      refactoring = Refactorings.find(refactoring_name)
       file = args.shift
       sexp = convert(file_system.read(file))
       result = refactoring.call(sexp, *args)
