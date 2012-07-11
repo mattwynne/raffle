@@ -2,7 +2,8 @@ require 'ripper_helper'
 require 'match_code_helper'
 require_relative '../../../lib/raffle/refactorings/rename_temp'
 
-describe Raffle::Refactorings::RenameTemp do
+module Raffle
+describe Refactorings::RenameTemp do
   it 'changes all occurrences of the temp name, but only within the given scope' do
     input = %{
       def foo
@@ -14,7 +15,7 @@ describe Raffle::Refactorings::RenameTemp do
         fred = "captain"
       end
     }
-    refactor(input, 'fred', 'billy', [3,0]).should match_code <<CODE
+    refactor(input, Position.new([3,0]), 'fred', 'billy').should match_code <<CODE
 def foo
   billy = 45
   june = billy
@@ -36,7 +37,7 @@ CODE
           puts thing
         end
       }
-      refactor(input, 'thing', 'bar', [3,0]).should match_code <<CODE
+      refactor(input, Position.new([3,0]), 'thing', 'bar').should match_code <<CODE
 def foo
   bar = 34
   [1].each do |number|
@@ -57,7 +58,7 @@ CODE
           puts thing
         end
       }
-      refactor(input, 'thing', 'number', [3,0]).should match_code <<CODE
+      refactor(input, Position.new([3,0]), 'thing', 'number').should match_code <<CODE
 def foo
   number = 34
   [1].each do |thing|
@@ -78,7 +79,7 @@ CODE
           puts thing
         end
       }
-      result = refactor(input, 'thing', 'number', [5,0])
+      result = refactor(input, Position.new([5,0]), 'thing', 'number')
       expected = <<CODE
 def foo
   thing = 34
@@ -112,12 +113,13 @@ def foo
   puts number
 end
 CODE
-    refactor(input, 'thing', 'number', [1,0]).should match_code(expected)
-    refactor(input, 'thing', 'number', [3,0]).should match_code(expected)
+    refactor(input, Position.new([1,0]), 'thing', 'number').should match_code(expected)
+    refactor(input, Position.new([3,0]), 'thing', 'number').should match_code(expected)
     end
   end
 
   context 'when the temp is a parameter' do
     pending 'what should we do here? change the parameter name too, or just change the local variable?'
   end
+end
 end
