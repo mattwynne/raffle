@@ -7,9 +7,9 @@ module Raffle
       include NavigatesTrees
       include ReadsSexps
 
-      def call(starting_sexp, extent, extent_sexp, new_name, result)
+      def call(starting_sexp, extent, extent_sexp, new_name, recorder)
         original_name = name_of_ident_at_position(starting_sexp, extent.start)
-        return result.invalid_starting_exent(extent) if original_name.nil?
+        return recorder.invalid_starting_exent(extent) if original_name.nil?
 
         scope_sexp = containing_scope_for_position(starting_sexp, extent.start)
         unless_scope_defines_variable_again = lambda do |new_scope|
