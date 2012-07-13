@@ -7,7 +7,9 @@ module Raffle
       include NavigatesTrees
       include ReadsSexps
 
-      def call(starting_sexp, start_position, original_name, new_name)
+      def call(starting_sexp, extent, new_name)
+pp starting_sexp
+	original_name = name_of_local_at_position(start_position)
         scope_sexp = containing_scope_for_position(starting_sexp, start_position)
         unless_scope_defines_variable_again = lambda do |new_scope|
           not defining_block_parameter?(new_scope, original_name)

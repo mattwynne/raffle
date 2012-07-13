@@ -14,7 +14,7 @@ Feature: Rename temp
       """
 
   Scenario: Rename temp by pointing to it
-    When I run `raffle RenameTemp lib/foo.rb:2,2 name`
+    When I run `raffle RenameTemp lib/foo.rb:2,2-2,5 name`
     Then the file `lib/foo.rb` should contain:
       """
       def name
