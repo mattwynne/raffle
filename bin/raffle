@@ -4,4 +4,7 @@ require 'raffle/cli'
 require 'raffle/file_system'
 
 file_system = Raffle::FileSystem.new
-Raffle::CLI.new(file_system).run(*ARGV)
+
+result = Raffle::CLI.new(file_system).run(*ARGV)
+result.report
+exit result.exit_status

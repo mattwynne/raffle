@@ -1,8 +1,9 @@
 require 'raffle/refactorings'
 require 'ripper'
 require 'raffle/extent'
-require 'sorcerer'
+require 'raffle/recorder'
 module Raffle
+
   class CLI < Struct.new(:file_system)
 
     def run(refactoring_name, *raw_args)
@@ -11,16 +12,13 @@ module Raffle
       source_sexp = convert(source)
       extent_sexp = convert(args.extent.slice(source))
       refactoring = Refactorings.find(refactoring_name)
-      result = refactoring.call(source_sexp, args.extent, extent_sexp, *args.rest)
-      file_system.write(args.file, rubify(result))
+      recorder = Raffle::Recorder.new
+      recorder.output_sexp(refactoring.call(source_sexp, args.extent, extent_sexp, *args.rest, recorder))
+      recorder.result
     end
 
     def convert(source)
       Ripper::SexpBuilder.new(source).parse
-    end
-
-    def rubify(sexpr)
-      Sorcerer.source(sexpr, multiline: true, indent: true)
     end
 
     class Arguments < Struct.new(:file, :extent, :rest)

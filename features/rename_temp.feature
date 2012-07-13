@@ -15,11 +15,24 @@ Feature: Rename temp
 
   Scenario: Rename temp by pointing to it
     When I run `raffle RenameTemp lib/foo.rb:2,2-2,5 name`
-    Then the file `lib/foo.rb` should contain:
+    Then the tool should run successfully
+    Then the output should be:
       """
       def name
         name = "fred"
         "My name is " + name
+      end
+
+      """
+
+  Scenario: Raffle asked to rename an invalid reference to a temp
+    When I run `raffle RenameTemp lib/foo.rb:3,2-3,5 name`
+    Then the tool should return an error code
+    Then the output should be:
+      """
+      def name
+        fred = "fred"
+        "My name is " + fred
       end
 
       """

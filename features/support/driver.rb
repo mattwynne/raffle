@@ -6,7 +6,15 @@ module Raffle
       end
 
       def run_refactoring(name, *args)
-        Raffle::CLI.new(file_system).run(name, *args)
+        @last_result = Raffle::CLI.new(file_system).run(name, *args)
+      end
+
+      def last_output
+        @last_result.resulting_code
+      end
+
+      def last_exit_status
+        @last_result.exit_status
       end
 
       def assert_file_content(path, content)
@@ -45,7 +53,6 @@ module Raffle
       end
 
       alias :assert_file_content :check_exact_file_content
-
     end
   end
 end
