@@ -10,7 +10,6 @@ module Raffle
       source = file_system.read(args.file)
       source_sexp = convert(source)
       extent_sexp = convert(args.extent.slice(source))
-      # ASSERT that extent_sexp is inside source_sexp
       refactoring = Refactorings.find(refactoring_name)
       result = refactoring.call(source_sexp, args.extent, extent_sexp, *args.rest)
       file_system.write(args.file, rubify(result))
