@@ -25,6 +25,10 @@ EXPECTED
         output = Extent.parse('1,2-3,3').slice(source)
         output.should == expected.chomp
       end
+
+      it "works for a single line" do
+        Extent.parse('1,1-1,1').slice('abc').should == 'b'
+      end
     end
   end
 end

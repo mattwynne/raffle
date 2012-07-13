@@ -10,9 +10,13 @@ module Raffle
 
     def slice(source)
       lines = source.split($/)[(start.line - 1)..(finish.line - 1)]
-      lines[0] = lines.first.slice(start.column..-1)
-      lines[-1] = lines.last.slice(0..finish.column)
-      lines.join($/)
+      output = []
+      lines.each_with_index do |line, index|
+        start_col = (index == 0 ? start.column : 0)
+	end_col = (index == lines.size - 1 ? finish.column : -1)
+	output << line[start_col..end_col]
+      end
+      output.join($/)
     end
   end
 end
