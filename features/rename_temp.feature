@@ -30,10 +30,7 @@ Feature: Rename temp
     Then the tool should return an error code
     Then the output should be:
       """
-      def name
-        fred = "fred"
-        "My name is " + fred
-      end
+      The starting extent was invalid.
 
       """
 

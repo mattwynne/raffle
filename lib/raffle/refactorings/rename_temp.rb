@@ -9,6 +9,8 @@ module Raffle
 
       def call(starting_sexp, extent, extent_sexp, new_name, result)
         original_name = name_of_ident_at_position(starting_sexp, extent.start)
+        return result.invalid_starting_exent(extent) if original_name.nil?
+
         scope_sexp = containing_scope_for_position(starting_sexp, extent.start)
         unless_scope_defines_variable_again = lambda do |new_scope|
           not defining_block_parameter?(new_scope, original_name)
@@ -22,7 +24,8 @@ module Raffle
       private
 
       def name_of_ident_at_position(starting_sexp, position)
-        sexp_for_position(starting_sexp, position)[1]
+        ident_candidate = sexp_for_position(starting_sexp, position)
+        ident_candidate[0] == :@ident ? ident_candidate[1] : nil
       end
 
       def sexp_for_position(starting_sexp, position)

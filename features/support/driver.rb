@@ -10,7 +10,7 @@ module Raffle
       end
 
       def last_output
-        @last_result.resulting_code
+        @last_result.to_s
       end
 
       def last_exit_status
@@ -50,6 +50,10 @@ module Raffle
 
       def run_refactoring(name, *args)
         run("raffle #{name} #{args.join(' ')}")
+      end
+
+      def last_output
+        all_output
       end
 
       alias :assert_file_content :check_exact_file_content
