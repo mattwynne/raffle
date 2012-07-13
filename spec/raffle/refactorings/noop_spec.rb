@@ -22,7 +22,7 @@ class Foo
   end
 end
 CODE
-    refactor(input).should == output
+    refactor(input, '1,1-1,1', Raffle::Recorder.new).should == output
   end
 
   it 'respects your funny bracketing conventions' do
@@ -36,6 +36,6 @@ def foo bar
   (bar + (1))
 end
 CODE
-    refactor(input).should == output
+    refactor(input, '1,1-1,1', Raffle::Recorder.new).should == output
   end
 end

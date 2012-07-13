@@ -23,17 +23,6 @@ module Raffle
 
       private
 
-      def name_of_ident_at_position(starting_sexp, position)
-        ident_candidate = sexp_for_position(starting_sexp, position)
-        ident_candidate[0] == :@ident ? ident_candidate[1] : nil
-      end
-
-      def sexp_for_position(starting_sexp, position)
-        find_first(starting_sexp) do |sexp|
-          positioned_on_or_after?(sexp, position)
-        end
-      end
-
       def defining_block_parameter?(starting_sexp, name)
         find_first(starting_sexp) do |sexp|
           block_parameter?(sexp, name)

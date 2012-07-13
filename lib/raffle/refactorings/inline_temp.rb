@@ -6,7 +6,7 @@ module Raffle
       include ReadsSexps
       include NavigatesTrees
 
-      def call(sexp, temp_name)
+      def call(sexp, extent, extent_sexp, temp_name, recorder)
         value = find_value_to_assign(sexp, temp_name)
         replace_temp_with_value(sexp, temp_name, value)
       end

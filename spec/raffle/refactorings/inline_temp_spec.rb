@@ -13,7 +13,7 @@ def thing
   "I was #{fred} years old"
 end
 CODE
-      output = refactor(input, "fred")
+      output = refactor(input, '2,2-2,5', "fred", Raffle::Recorder.new)
       output.should == <<'CODE'
 def thing
   fred = 35

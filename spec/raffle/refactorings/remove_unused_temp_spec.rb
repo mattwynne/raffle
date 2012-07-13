@@ -1,5 +1,6 @@
 require 'ripper_helper'
 require_relative '../../../lib/raffle/refactorings/remove_unused_temp'
+require 'raffle/recorder'
 
 describe Raffle::Refactorings::RemoveUnusedTemp do
   let(:input) do
@@ -17,12 +18,15 @@ def thing
   42
 end
 CODE
-    refactor(input, 'fred').should == expected
+    refactor(input, '2,2-2,5', Raffle::Recorder.new).should == expected
   end
 
   context 'when the temp is not found' do
-    it 'returns the s-expression unchanged' do
-      refactor(input, 'jim').should == "def thing\n  fred = 35\n  42\nend\n"
+    it 'returns an error' do
+      pending "can't quite make the rename temp fail yet - need a better check to make sure the extent selects a temp not just an ident"
+      recorder = Raffle::Recorder.new
+      refactor(input, '1,0-1,2', recorder)
+      recorder.result.should be_a(Raffle::FailedResult)
     end
   end
 
