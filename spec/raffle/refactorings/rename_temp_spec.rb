@@ -14,13 +14,13 @@ describe Raffle::Refactorings::RenameTemp do
         fred = "captain"
       end
     }
-    refactor(input, 'fred', 'billy', [3,0]).should match_code <<-CODE
+    refactor(input, 'fred', 'billy', [3,0]).should match_code <<CODE
 def foo
-billy = 45
-june = billy
+  billy = 45
+  june = billy
 end
 def bar
-fred = "captain"
+  fred = "captain"
 end
 CODE
   end
@@ -36,13 +36,13 @@ CODE
           puts thing
         end
       }
-      refactor(input, 'thing', 'bar', [3,0]).should match_code <<-CODE
+      refactor(input, 'thing', 'bar', [3,0]).should match_code <<CODE
 def foo
-bar = 34
-[1].each do |number|
-puts number + bar
-end
-puts bar
+  bar = 34
+  [1].each do |number|
+    puts number + bar
+  end
+  puts bar
 end
 CODE
     end
@@ -57,13 +57,13 @@ CODE
           puts thing
         end
       }
-      refactor(input, 'thing', 'number', [3,0]).should match_code <<-CODE
+      refactor(input, 'thing', 'number', [3,0]).should match_code <<CODE
 def foo
-number = 34
-[1].each do |thing|
-puts thing
-end
-puts number
+  number = 34
+  [1].each do |thing|
+    puts thing
+  end
+  puts number
 end
 CODE
     end
@@ -78,15 +78,17 @@ CODE
           puts thing
         end
       }
-      refactor(input, 'thing', 'number', [5,0]).should match_code <<-CODE
+      result = refactor(input, 'thing', 'number', [5,0])
+      expected = <<CODE
 def foo
-thing = 34
-[1].each do |number|
-puts number
-end
-puts thing
+  thing = 34
+  [1].each do |number|
+    puts number
+  end
+  puts thing
 end
 CODE
+      result.should match_code expected
     end
   end
 
@@ -101,13 +103,13 @@ CODE
           puts thing
         end
       }
-      expected = <<-CODE
+      expected = <<CODE
 def foo
-number = 34
-begin
-number = 35
-end
-puts number
+  number = 34
+  begin
+    number = 35
+  end
+  puts number
 end
 CODE
     refactor(input, 'thing', 'number', [1,0]).should match_code(expected)
