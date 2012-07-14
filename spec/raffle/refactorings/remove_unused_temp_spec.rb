@@ -31,22 +31,16 @@ CODE
   end
 
   context 'when the temp is used within the same method scope' do
-    it 'returns the s-expression unchanged' do
-      input = <<-CODE
-        def thing
-          fred = 35
-          do_something_to fred
-          42
-        end
-      CODE
-
-      refactor(input, 'fred').should == <<CODE
+    let(:input) { <<-CODE }
 def thing
   fred = 35
   do_something_to fred
   42
 end
 CODE
+
+    it 'returns the s-expression unchanged' do
+      refactor(input, 'fred').should == input
     end
   end
 
@@ -75,7 +69,7 @@ CODE
   end
 
   context 'when the temp is the return value' do
-      let (:input) { <<-CODE }
+    let (:input) { <<-CODE }
 def thing
   fred = 35
   42
