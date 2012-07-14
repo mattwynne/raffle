@@ -75,6 +75,16 @@ CODE
   end
 
   context 'when the temp is the return value' do
-    it 'returns the original return value'
+      let (:input) { <<-CODE }
+def thing
+  fred = 35
+  42
+  fred
+end
+CODE
+
+    it 'returns the original return value' do
+      refactor(input, 'fred').should == input
+    end
   end
 end
