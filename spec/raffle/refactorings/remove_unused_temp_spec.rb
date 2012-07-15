@@ -3,28 +3,25 @@ require_relative '../../../lib/raffle/refactorings/remove_unused_temp'
 require 'raffle/recorder'
 
 describe Raffle::Refactorings::RemoveUnusedTemp do
-  let(:input) { <<CODE }
-def thing
-  fred = 35
-  42
+  context 'when the temp is not used anywhere else in the same method' do
+    let(:input) { <<-CODE }
+def a_method
+  fred = :some_unused_value
+  :result
 end
-CODE
+    CODE
 
-  it 'returns an s-expression with the temp removed' do
-    refactor(input, '2,2-2,5', Raffle::Recorder.new).should == <<-EXPECTED
-def thing
-  42
+    it 'returns an s-expression with the temp removed' do
+      refactor(input, '2,2-2,5', Raffle::Recorder.new).should == <<-EXPECTED
+def a_method
+  :result
 end
-    EXPECTED
+      EXPECTED
+    end
   end
 
   context 'when the temp is not found' do
-    it 'returns an error' do
-      pending "can't quite make the remove temp fail yet - need a better check to make sure the extent selects a temp not just an ident"
-      recorder = Raffle::Recorder.new
-      refactor(input, '1,0-1,2', recorder)
-      recorder.result.should be_a(Raffle::FailedResult)
-    end
+    it 'returns an error'
   end
 
   context 'when the temp is used within the same method scope' do
@@ -36,7 +33,16 @@ def thing
 end
     CODE
 
-    it 'returns and error'
+    it 'returns an error'
+  end
+
+  context 'when the temp is not found' do
+    it 'returns an error' do
+      pending "can't quite make the remove temp fail yet - need a better check to make sure the extent selects a temp not just an ident"
+      recorder = Raffle::Recorder.new
+      refactor(input, '1,0-1,2', recorder)
+      recorder.result.should be_a(Raffle::FailedResult)
+    end
   end
 
   context "when the temp's name is used as the name of another method" do
@@ -59,11 +65,19 @@ end
 def fred
   "something unrelated"
 end
-      CODE
+CODE
     end
   end
 
   context 'when the temp is the return value' do
-    it 'returns the original return value'
+    let (:input) { <<-CODE }
+def thing
+  fred = 35
+  42
+  fred
+end
+CODE
+
+    it 'returns an error'
   end
 end
