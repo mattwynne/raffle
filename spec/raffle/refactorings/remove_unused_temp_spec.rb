@@ -80,4 +80,23 @@ CODE
 
     it 'returns an error'
   end
+  
+  context 'when the name of the variable is used elsewhere in the same method' do
+    let(:input) { <<-CODE }
+def a_method
+  fred = 34
+  something_unrelated = :fred
+  :result
+end
+    CODE
+
+    it 'removes the temp as expected' do
+      refactor(input, '2,2-2,5', Raffle::Recorder.new).should == <<-EXPECTED
+def a_method
+  something_unrelated = :fred
+  :result
+end
+EXPECTED
+    end
+  end
 end
