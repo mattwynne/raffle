@@ -1,10 +1,4 @@
 #!/usr/bin/env ruby
 $: << File.dirname(__FILE__) + '/../lib'
 require 'raffle/cli'
-require 'raffle/file_system'
-
-file_system = Raffle::FileSystem.new
-
-result = Raffle::CLI.new(file_system).run(*ARGV)
-result.report
-exit result.exit_status
+exit Raffle::CLI.invoke

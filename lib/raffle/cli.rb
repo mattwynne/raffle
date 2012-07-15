@@ -2,9 +2,16 @@ require 'raffle/refactorings'
 require 'ripper'
 require 'raffle/extent'
 require 'raffle/recorder'
+require 'raffle/file_system'
 module Raffle
 
   class CLI < Struct.new(:file_system)
+    def self.invoke
+      file_system = Raffle::FileSystem.new
+      result = Raffle::CLI.new(file_system).run(*ARGV)
+      result.report
+      result.exit_status
+    end
 
     def run(refactoring_name, *raw_args)
       args = Arguments.parse(raw_args)
