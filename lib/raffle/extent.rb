@@ -13,8 +13,8 @@ module Raffle
       output = []
       lines.each_with_index do |line, index|
         start_col = (index == 0 ? start.column : 0)
-	end_col = (index == lines.size - 1 ? finish.column : -1)
-	output << line[start_col..end_col]
+        end_col = (index == lines.size - 1 ? finish.column : -1)
+        output << line[start_col..end_col]
       end
       output.join($/)
     end
