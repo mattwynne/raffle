@@ -1,10 +1,14 @@
 require 'ripper'
 require 'sorcerer'
+require 'raffle/extent'
+require 'raffle/recorder'
 
 module RipperHelper
-  def refactor(input, *args)
+  def refactor(input, extent_string, *args)
     sexp = convert(input)
-    result = subject.call(sexp, *args)
+    extent = Raffle::Extent.parse(extent_string)
+    extent_sexp = extent.slice(input)
+    result = subject.call(sexp, extent, extent_sexp, *args)
     rubify(result)
   end
 
@@ -13,7 +17,7 @@ module RipperHelper
   end
 
   def rubify(sexpr)
-    Sorcerer.source(sexpr, multiline: true)
+    Sorcerer.source(sexpr, indent: true)
   end
 end
 

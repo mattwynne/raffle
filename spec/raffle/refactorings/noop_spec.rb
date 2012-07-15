@@ -3,8 +3,8 @@ require 'raffle/refactorings/noop'
 
 describe Raffle::Refactorings::Noop do
 
-  it 'flattens all your lovely indentation (sorry!)' do
-    input = <<-CODE
+  it 'respects standard 2-space indentation' do
+    input = <<CODE
 class Foo
   def bar
     [1, 2].each do |baz|
@@ -12,26 +12,30 @@ class Foo
     end
   end
 end
-    CODE
-    output = 'class Foo
-def bar
-[1, 2].each do |baz|
-puts baz
+CODE
+    output = <<CODE
+class Foo
+  def bar
+    [1, 2].each do |baz|
+      puts baz
+    end
+  end
 end
-end
-end'
-    refactor(input).should == output
+CODE
+    refactor(input, '1,1-1,1', Raffle::Recorder.new).should == output
   end
 
   it 'respects your funny bracketing conventions' do
-    input = <<-CODE
+    input = <<CODE
 def foo bar
   (bar + (1))
 end
-    CODE
-    output = 'def foo bar
-(bar + (1))
-end'
-    refactor(input).should == output
+CODE
+    output = <<CODE
+def foo bar
+  (bar + (1))
+end
+CODE
+    refactor(input, '1,1-1,1', Raffle::Recorder.new).should == output
   end
 end

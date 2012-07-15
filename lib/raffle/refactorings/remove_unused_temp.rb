@@ -6,8 +6,8 @@ module Raffle
       include ReadsSexps
       include NavigatesTrees
 
-      def call(starting_sexp, temp_name)
-        return starting_sexp if more_than_one_use_of?(starting_sexp, temp_name)
+      def call(starting_sexp, extent, extent_sexp, recorder)
+        temp_name = name_of_ident_at_position(starting_sexp, extent.start)
 
         transform(starting_sexp) do |sexp|
           sexp.reject { |child| assignment_with_name?(child, temp_name) }
