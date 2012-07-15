@@ -2,6 +2,7 @@
 *.rbc
 **.swp
 .bundle
+Gemfile.lock
 .config
 coverage
 InstalledFiles
