@@ -1,23 +1,24 @@
 require 'ripper_helper'
+require 'string_helper'
 require_relative '../../../lib/raffle/refactorings/remove_unused_temp'
 require 'raffle/recorder'
 
 describe Raffle::Refactorings::RemoveUnusedTemp do
   let(:input) do
-    <<CODE
-def thing
-  fred = 35
-  42
-end
-CODE
+    <<-CODE.undent
+      def thing
+        fred = 35
+        42
+      end
+    CODE
   end
 
   it 'returns an s-expression with the temp removed' do
-    expected = <<CODE
-def thing
-  42
-end
-CODE
+    expected = <<-CODE.undent
+      def thing
+        42
+      end
+    CODE
     refactor(input, '2,2-2,5', Raffle::Recorder.new).should == expected
   end
 

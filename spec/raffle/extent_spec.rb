@@ -1,3 +1,4 @@
+require 'string_helper'
 require 'raffle/extent'
 
 module Raffle
@@ -12,16 +13,17 @@ module Raffle
   
     context "slicing a piece of source code" do
       it "returns the range specified" do
-        source = <<SOURCE
-01234
-abcde
-ABCDE
-SOURCE
-        expected = <<EXPECTED
-234
-abcde
-ABCD
-EXPECTED
+        source = <<-SOURCE.undent
+          01234
+          abcde
+          ABCDE
+        SOURCE
+
+        expected = <<-EXPECTED.undent
+          234
+          abcde
+          ABCD
+        EXPECTED
         output = Extent.parse('1,2-3,3').slice(source)
         output.should == expected.chomp
       end
