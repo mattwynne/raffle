@@ -1,4 +1,5 @@
 require 'ripper_helper'
+require 'string_helper'
 require_relative '../../../lib/raffle/refactorings/inline_temp'
 
 describe Raffle::Refactorings::InlineTemp do
@@ -6,21 +7,21 @@ describe Raffle::Refactorings::InlineTemp do
   context 'when the temp can be safely inlined' do
 
     it 'replaces all uses of the temp' do
-      input = <<'CODE'
-def thing
-  fred = 35
-  june = fred
-  "I was #{fred} years old"
-end
-CODE
+      input = <<-CODE.undent
+        def thing
+          fred = 35
+          june = fred
+          "I was \#{fred} years old"
+        end
+      CODE
       output = refactor(input, '2,2-2,5', "fred", Raffle::Recorder.new)
-      output.should == <<'CODE'
-def thing
-  fred = 35
-  june = 35
-  "I was #{35} years old"
-end
-CODE
+      output.should == <<-CODE.undent
+        def thing
+          fred = 35
+          june = 35
+          "I was \#{35} years old"
+        end
+      CODE
     end
 
     context 'when the temp uses an overloaded name' do
