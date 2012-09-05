@@ -12,7 +12,7 @@ It is:
 
 We'd love your help. 
 
-Come and talk to us on the Google group: https://groups.google.com/forum/#!forum/a-refactoring-tool-for-ruby or the IRC channel: irc://irc.freenode.net/raffle.rb
+Come and talk to us on the Google group: https://groups.google.com/forum/?fromgroups#!forum/raffle-rb or the IRC channel: irc://irc.freenode.net/raffle.rb
 
 ## Contributing
 
